@@ -36,7 +36,9 @@ namespace Negocio
                     articulo.Codigo=(string)datos.Lector["Codigo"];
                     articulo.Nombre = (string)datos.Lector["Nombre"];
                     articulo.Descripcion = (string)datos.Lector["Descripcion"];
+
                     articulo.Precio = (decimal)datos.Lector["Precio"];
+
                     articulo.ImagenUrl = (string)datos.Lector["ImagenUrl"];
 
                     articulo.Categoria = new Categoria();
@@ -53,13 +55,14 @@ namespace Negocio
 
                 datos.cerrarConexion();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
-                throw;
+                throw ex;
             }
             return lista;
         }
+
 
         public void Agregar() 
         {

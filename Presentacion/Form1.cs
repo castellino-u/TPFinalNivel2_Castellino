@@ -28,23 +28,49 @@ namespace Presentacion
             lista = articuloNegocio.listar();
             dgvArticulo.DataSource = lista;
             cargarImagen(lista[0].ImagenUrl);
+            ocultarColumnas();
+         
+
+        }
+         //Metodo para cargar la descripción de los objetos en los labels
+         //...
+        private void cargarDescripcion(Articulo aux)
+        {
+            lblNombre.Text = aux.Nombre;
+            lblPrecio.Text = aux.Precio.ToString();
+            lblDescripcion.Text = aux.Descripcion;
+            lblMarca.Text = aux.Marca.Descripcion;
+            lblCategoria.Text = aux.Categoria.Descripcion;
+        }
+
+
+
+        //Método para formatear las columnas del dataGridView
+        //...
+        private void ocultarColumnas()
+        {
+            dgvArticulo.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvArticulo.Columns["Id"].Visible = false;
+            dgvArticulo.Columns["ImagenUrl"].Visible = false;
+            dgvArticulo.Columns["Descripcion"].Visible = false;
         }
 
         private void pbxArticulo_Click(object sender, EventArgs e)
         {
 
         }
+
+        //Método para cargar imagen en pictureBox
+        //...
         public void cargarImagen(string imagen)
         {
-           
             try
             {
                 pbxArticulo.Load(imagen);
             }
             catch (Exception)
             {
-                pbxArticulo.Load("https://edteam-media.s3.amazonaws.com/blogs/big/2ab53939-9b50-47dd-b56e-38d4ba3cc0f0.png");
-                
+                pbxArticulo.Load("https://w7.pngwing.com/pngs/644/437/png-transparent-lost-and-found-property-gudi-padwa-miscellaneous-photography-logo-thumbnail.png");
             }
         }
 
@@ -52,6 +78,13 @@ namespace Presentacion
         {
             Articulo articulo = (Articulo)dgvArticulo.CurrentRow.DataBoundItem;
             cargarImagen(articulo.ImagenUrl);
+            cargarDescripcion(articulo);
+        }
+
+        private void btnAgregar_Click(object sender, EventArgs e)
+        {
+            frmAgregar agregar = new frmAgregar();
+            agregar.ShowDialog();
         }
     }
 }
