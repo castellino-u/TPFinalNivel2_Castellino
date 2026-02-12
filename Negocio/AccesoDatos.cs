@@ -47,20 +47,26 @@ namespace Negocio
             }
         }
 
-        public void ejecutarInsert()
+        public void ejecutarAccion()
         {
+            comando.Connection = conexion;
+            try
+            {
+                conexion.Open(); //Abrimos la conexión
+                comando.ExecuteNonQuery(); //ejecutamos el insert, el update o el delete, es lo mismo ya que los 3 se hacen con el executeNonQuery()
+            }
+            catch (Exception ex)
+            {
 
+                throw ex;
+            }
         }
 
-        public void ejecutarDelete()
+        public void setearParametros(string nombre, object valor)
         {
-
+            comando.Parameters.AddWithValue(nombre, valor);
         }
 
-        public void ejecutarUpdate() 
-        {
-        
-        }
 
         public void cerrarConexion()
         {

@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using Dominio;
 
 namespace Negocio
 {
     public class ArticuloNegocio
     {
+        
        
 
         public List<Articulo> listar()
@@ -64,8 +66,35 @@ namespace Negocio
         }
 
 
-        public void Agregar() 
+        public void Agregar(Articulo nuevo) 
         {
+            AccesoDatos datos = new AccesoDatos();
+            try
+            {
+                datos.setearConsulta("insert into ARTICULOS (Codigo,Nombre,Descripcion,IdMarca,IdCategoria,ImagenUrl,Precio) values (@codigo,@nombre,@desc,@IdMarca,@IdCategoria,@ImagenUrl,@precio)\r\n");
+                //seteamos los parametros con el objeto que recibimos
+                datos.setearParametros("@codigo", nuevo.Codigo);
+                datos.setearParametros("@nombre", nuevo.Nombre);
+                datos.setearParametros("@desc", nuevo.Descripcion);
+                datos.setearParametros("@IdMarca", nuevo.Marca.Id);
+                datos.setearParametros("@IdCategoria", nuevo.Categoria.Id);
+                datos.setearParametros("@ImagenUrl", nuevo.ImagenUrl);
+                datos.setearParametros("@precio", nuevo.Precio);
+
+                //enviamos la consulta modificada
+                datos.ejecutarAccion();
+
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
 
         }
 
