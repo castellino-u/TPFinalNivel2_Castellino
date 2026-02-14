@@ -16,7 +16,7 @@ namespace Presentacion
 {
     public partial class frmAgregar : Form
     {
-        Articulo art;
+        Articulo art = null;
 
         public frmAgregar()
         {
@@ -39,27 +39,33 @@ namespace Presentacion
             //Hay que capturar los datos de las estructuras de control en un objeto articulo y mandarlas a la base de datos
             //Captura de datos 
             ArticuloNegocio articuloNegocio = new ArticuloNegocio();
-            art = new Articulo();
 
             try
             {
-                art.Codigo = txtCodigo.Text;
-                art.Nombre = txtNombre.Text;
-                art.Descripcion = txtDescripcion.Text;
-                art.ImagenUrl = txtImagenUrl.Text;
-                
-                decimal precio;
-                if (decimal.TryParse(txtPrecio.Text, out precio))
+                if (!(art == null))
                 {
-                    art.Precio = precio;
+                    art = new Articulo();
+                    art.Codigo = txtCodigo.Text;
+                    art.Nombre = txtNombre.Text;
+                    art.Descripcion = txtDescripcion.Text;
+                    art.ImagenUrl = txtImagenUrl.Text;
+
+                    decimal precio;
+
+                    if (decimal.TryParse(txtPrecio.Text, out precio))
+                    {
+                        art.Precio = precio;
+                    }
+
+                    art.Categoria = (Categoria)cboCategoria.SelectedItem;
+                    art.Marca = (Marca)cboMarca.SelectedItem;
+
                 }
+                else
+                {
+                    //Si no es nulo, quiere decir que viene con un objeto y se requiere modificar ese objeto 
 
-                art.Categoria = (Categoria)cboCategoria.SelectedItem;
-                art.Marca = (Marca)cboMarca.SelectedItem;
-
-                articuloNegocio.Agregar(art);
-                MessageBox.Show("Agregado correctamente");
-
+                }
             }
             catch (Exception ex)
             {
@@ -67,7 +73,10 @@ namespace Presentacion
                 throw ex;
             }
 
-             this.Close();
+            articuloNegocio.Agregar(art);
+            MessageBox.Show("Agregado correctamente");
+
+            this.Close();
         }
 
         private void frmAgregar_Load(object sender, EventArgs e)
@@ -77,10 +86,46 @@ namespace Presentacion
             MarcaNegocio marcaNegocio = new MarcaNegocio();
 
             cboCategoria.DataSource = categoriaNegocio.listar();
-            cboMarca.DataSource = marcaNegocio.listar();
-            cboMarca.SelectedIndex = -1;
+            cboCategoria.ValueMember = "Id";
+            cboCategoria.DisplayMember = "Descripcion";
             cboCategoria.SelectedIndex = -1;
 
+            cboMarca.DataSource = marcaNegocio.listar();
+            cboMarca.ValueMember = "Id";
+            cboMarca.DisplayMember = "Descripcion";
+            cboMarca.SelectedIndex = -1;
+
+            //Hay que capturar los datos de las estructuras de control en un objeto articulo y mandarlas a la base de datos o mostrar los datos del objeto, depende del método
+            //...
+
+
+            try
+            {
+                if (!(art == null))
+                {
+                   
+                    txtCodigo.Text = art.Codigo;
+                    txtNombre.Text = art.Nombre ;
+                    txtDescripcion.Text = art.Descripcion;
+                    txtImagenUrl.Text = art.ImagenUrl;
+                    txtPrecio.Text = art.Precio.ToString();
+                    cargarImagen(art.ImagenUrl);
+
+                    //Queda mapear Categoría y Marca
+                    cboCategoria.SelectedValue = art.Categoria.Id;
+                    cboMarca.SelectedValue = art.Marca.Id;
+                }
+                else
+                {
+                    //Si no es nulo, quiere decir que viene con un objeto y se requiere modificar ese objeto 
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
         }
 
         private void btnCancelar_Click(object sender, EventArgs e)
