@@ -50,7 +50,6 @@ namespace Presentacion
                 articuloNegocio.Agregar(art);
                 MessageBox.Show("Agregado correctamente");
 
-
             }
             catch (Exception ex)
             {
@@ -58,20 +57,42 @@ namespace Presentacion
                 throw ex;
             }
 
+             this.Close();
         }
 
         private void frmAgregar_Load(object sender, EventArgs e)
         {
+            cargarImagen("https://w7.pngwing.com/pngs/644/437/png-transparent-lost-and-found-property-gudi-padwa-miscellaneous-photography-logo-thumbnail.png");
             CategoriaNegocio categoriaNegocio = new CategoriaNegocio();
             MarcaNegocio marcaNegocio = new MarcaNegocio();
 
             cboCategoria.DataSource = categoriaNegocio.listar();
             cboMarca.DataSource = marcaNegocio.listar();
+            cboMarca.SelectedIndex = -1;
+            cboCategoria.SelectedIndex = -1;
+
         }
 
         private void btnCancelar_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void txtImagenUrl_Leave(object sender, EventArgs e)
+        {
+            cargarImagen(txtImagenUrl.Text);
+        }
+
+        public void cargarImagen(string imagen)
+        {
+            try
+            {
+                pbxArticulo.Load(imagen);
+            }
+            catch (Exception)
+            {
+                pbxArticulo.Load("https://w7.pngwing.com/pngs/644/437/png-transparent-lost-and-found-property-gudi-padwa-miscellaneous-photography-logo-thumbnail.png");
+            }
         }
     }
 }

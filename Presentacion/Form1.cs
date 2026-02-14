@@ -23,14 +23,7 @@ namespace Presentacion
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            ArticuloNegocio articuloNegocio = new ArticuloNegocio();
-            List<Articulo> lista = new List<Articulo>();
-            lista = articuloNegocio.listar();
-            dgvArticulo.DataSource = lista;
-            cargarImagen(lista[0].ImagenUrl);
-            ocultarColumnas();
-         
-
+            cargarDatos();
         }
          //Metodo para cargar la descripción de los objetos en los labels
          //...
@@ -85,6 +78,16 @@ namespace Presentacion
         {
             frmAgregar agregar = new frmAgregar();
             agregar.ShowDialog();
+            cargarDatos();
+        }
+        public void cargarDatos()
+        {
+            ArticuloNegocio articuloNegocio = new ArticuloNegocio();
+            List<Articulo> lista = new List<Articulo>();
+            lista = articuloNegocio.listar();
+            dgvArticulo.DataSource = lista;
+            cargarImagen(lista[0].ImagenUrl);
+            ocultarColumnas();
         }
     }
 }
