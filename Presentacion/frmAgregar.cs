@@ -25,10 +25,13 @@ namespace Presentacion
 
         }
 
-        public frmAgregar(Articulo seleccionado)
+        public frmAgregar(Articulo art)
         {
+            this.art = art;
             InitializeComponent();
             Text = "Modificar";
+
+
         }
 
         private void btnAgregar_Click(object sender, EventArgs e)
