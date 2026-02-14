@@ -35,13 +35,27 @@ namespace Negocio
 
                     //mapeo de objeto articulo
                     articulo.Id = (int)datos.Lector["Id"];
-                    articulo.Codigo=(string)datos.Lector["Codigo"];
-                    articulo.Nombre = (string)datos.Lector["Nombre"];
+                    if (!(datos.Lector["Codigo"] is DBNull))
+                    {
+                        articulo.Codigo=(string)datos.Lector["Codigo"];
+                    }
+                    if (!(datos.Lector["Nombre"] is DBNull))
+                    {
+                        articulo.Nombre = (string)datos.Lector["Nombre"];
+                    }
                     articulo.Descripcion = (string)datos.Lector["Descripcion"];
 
-                    articulo.Precio = (decimal)datos.Lector["Precio"];
+                    if (!(datos.Lector["Precio"] is DBNull))
+                    {
+                        articulo.Precio = (decimal)datos.Lector["Precio"];
+                    }
 
-                    articulo.ImagenUrl = (string)datos.Lector["ImagenUrl"];
+                    if (!(datos.Lector["ImagenUrl"] is DBNull))
+                    {
+                        articulo.ImagenUrl = (string)datos.Lector["ImagenUrl"];
+                    }
+
+
 
                     articulo.Categoria = new Categoria();
                     articulo.Categoria.Id = (int)datos.Lector["IdCategoria"];

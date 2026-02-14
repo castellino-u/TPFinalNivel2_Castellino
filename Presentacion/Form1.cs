@@ -89,5 +89,18 @@ namespace Presentacion
             cargarImagen(lista[0].ImagenUrl);
             ocultarColumnas();
         }
+
+        private void btnModificar_Click(object sender, EventArgs e)
+        {
+            //Acá reutilizamos el form de agregar
+            Articulo seleccionado = new Articulo();
+            seleccionado = (Articulo)dgvArticulo.CurrentRow.DataBoundItem;
+
+            frmAgregar modificar = new frmAgregar(seleccionado);
+            modificar.ShowDialog();
+            cargarDatos();
+
+
+        }
     }
 }

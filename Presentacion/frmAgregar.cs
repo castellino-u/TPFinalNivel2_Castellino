@@ -22,6 +22,13 @@ namespace Presentacion
         {
             InitializeComponent();
             Text = "Agregar";
+
+        }
+
+        public frmAgregar(Articulo seleccionado)
+        {
+            InitializeComponent();
+            Text = "Modificar";
         }
 
         private void btnAgregar_Click(object sender, EventArgs e)
