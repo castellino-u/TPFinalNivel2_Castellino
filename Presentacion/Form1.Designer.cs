@@ -38,7 +38,7 @@
             this.lblDescripcionTitulo = new System.Windows.Forms.Label();
             this.lblMarcaTitulo = new System.Windows.Forms.Label();
             this.lblCategoriaTitulo = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.txtFiltroRapido = new System.Windows.Forms.TextBox();
             this.lblFiltro = new System.Windows.Forms.Label();
             this.lblPrecioTitulo = new System.Windows.Forms.Label();
             this.lblNombre = new System.Windows.Forms.Label();
@@ -146,12 +146,13 @@
             this.lblCategoriaTitulo.TabIndex = 9;
             this.lblCategoriaTitulo.Text = "Categoría:";
             // 
-            // textBox1
+            // txtFiltroRapido
             // 
-            this.textBox1.Location = new System.Drawing.Point(270, 58);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(321, 20);
-            this.textBox1.TabIndex = 10;
+            this.txtFiltroRapido.Location = new System.Drawing.Point(270, 58);
+            this.txtFiltroRapido.Name = "txtFiltroRapido";
+            this.txtFiltroRapido.Size = new System.Drawing.Size(321, 20);
+            this.txtFiltroRapido.TabIndex = 10;
+            this.txtFiltroRapido.TextChanged += new System.EventHandler(this.txtFiltroRapido_TextChanged);
             // 
             // lblFiltro
             // 
@@ -228,7 +229,7 @@
             this.Controls.Add(this.lblNombre);
             this.Controls.Add(this.lblPrecioTitulo);
             this.Controls.Add(this.lblFiltro);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.txtFiltroRapido);
             this.Controls.Add(this.lblCategoriaTitulo);
             this.Controls.Add(this.lblMarcaTitulo);
             this.Controls.Add(this.lblDescripcionTitulo);
@@ -262,7 +263,7 @@
         private System.Windows.Forms.Label lblDescripcionTitulo;
         private System.Windows.Forms.Label lblMarcaTitulo;
         private System.Windows.Forms.Label lblCategoriaTitulo;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox txtFiltroRapido;
         private System.Windows.Forms.Label lblFiltro;
         private System.Windows.Forms.Label lblPrecioTitulo;
         private System.Windows.Forms.Label lblNombre;

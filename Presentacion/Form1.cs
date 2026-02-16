@@ -15,6 +15,9 @@ namespace Presentacion
 {
     public partial class Form1 : Form
     {
+
+        List<Articulo> listaArticulos;
+
         public Form1()
         {
             InitializeComponent();
@@ -83,10 +86,10 @@ namespace Presentacion
         public void cargarDatos()
         {
             ArticuloNegocio articuloNegocio = new ArticuloNegocio();
-            List<Articulo> lista = new List<Articulo>();
-            lista = articuloNegocio.listar();
-            dgvArticulo.DataSource = lista;
-            cargarImagen(lista[0].ImagenUrl);
+            
+            listaArticulos = articuloNegocio.listar();
+            dgvArticulo.DataSource = listaArticulos;
+            cargarImagen(listaArticulos[0].ImagenUrl);
             ocultarColumnas();
         }
 
@@ -130,6 +133,26 @@ namespace Presentacion
             }
 
             cargarDatos();
+        }
+
+        private void txtFiltroRapido_TextChanged(object sender, EventArgs e)
+        {
+            string filtro = txtFiltroRapido.Text;
+            List<Articulo> listaFiltrada;
+
+            if (int.TryParse(txtFiltroRapido.Text, out int num))
+            {
+
+                listaFiltrada = listaArticulos.FindAll(x => x.Id == num);
+
+            }
+            else
+            {
+                listaFiltrada = listaArticulos.FindAll(x => x.Nombre.ToLower().Contains(filtro.ToLower()));
+            }
+            dgvArticulo.DataSource = null;
+            dgvArticulo.DataSource = listaFiltrada;
+
         }
     }
 }
