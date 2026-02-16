@@ -42,39 +42,45 @@ namespace Presentacion
 
             try
             {
-                if (!(art == null))
+                if (art == null)
                 {
                     art = new Articulo();
-                    art.Codigo = txtCodigo.Text;
-                    art.Nombre = txtNombre.Text;
-                    art.Descripcion = txtDescripcion.Text;
-                    art.ImagenUrl = txtImagenUrl.Text;
-
-                    decimal precio;
-
-                    if (decimal.TryParse(txtPrecio.Text, out precio))
-                    {
-                        art.Precio = precio;
-                    }
-
-                    art.Categoria = (Categoria)cboCategoria.SelectedItem;
-                    art.Marca = (Marca)cboMarca.SelectedItem;
-
                 }
-                else
+                art.Codigo = txtCodigo.Text;
+                art.Nombre = txtNombre.Text;
+                art.Descripcion = txtDescripcion.Text;
+                art.ImagenUrl = txtImagenUrl.Text;
+
+                decimal precio;
+
+                if (decimal.TryParse(txtPrecio.Text, out precio))
                 {
-                    //Si no es nulo, quiere decir que viene con un objeto y se requiere modificar ese objeto 
-
+                   art.Precio = precio;
                 }
+
+                art.Categoria = (Categoria)cboCategoria.SelectedItem;
+                art.Marca = (Marca)cboMarca.SelectedItem;
+
+                
             }
             catch (Exception ex)
             {
 
                 throw ex;
             }
+            //Acá hay que ver qué método se ejecuta, si agregar() o modificar()
+            if (art.Id > 0)
+            {
+                articuloNegocio.Modificar(art);
+                MessageBox.Show("Modificado correctamente");
 
-            articuloNegocio.Agregar(art);
-            MessageBox.Show("Agregado correctamente");
+            }
+            else
+            {
+                articuloNegocio.Agregar(art);
+                MessageBox.Show("Agregado correctamente");
+
+            }
 
             this.Close();
         }
@@ -85,6 +91,8 @@ namespace Presentacion
             CategoriaNegocio categoriaNegocio = new CategoriaNegocio();
             MarcaNegocio marcaNegocio = new MarcaNegocio();
 
+            //Desplegables
+            //...
             cboCategoria.DataSource = categoriaNegocio.listar();
             cboCategoria.ValueMember = "Id";
             cboCategoria.DisplayMember = "Descripcion";
@@ -95,7 +103,7 @@ namespace Presentacion
             cboMarca.DisplayMember = "Descripcion";
             cboMarca.SelectedIndex = -1;
 
-            //Hay que capturar los datos de las estructuras de control en un objeto articulo y mandarlas a la base de datos o mostrar los datos del objeto, depende del método
+            //hay que mostrar los datos si es que se presionó MODIFICAR, sino no hacer nada  
             //...
 
 
@@ -103,7 +111,9 @@ namespace Presentacion
             {
                 if (!(art == null))
                 {
-                   
+                    //Detalle para que sea mas evidente que se quiere modificar un registro
+                    btnAgregar.Text = "Modificar";
+
                     txtCodigo.Text = art.Codigo;
                     txtNombre.Text = art.Nombre ;
                     txtDescripcion.Text = art.Descripcion;
