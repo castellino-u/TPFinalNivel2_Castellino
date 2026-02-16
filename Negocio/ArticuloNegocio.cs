@@ -69,13 +69,18 @@ namespace Negocio
                     lista.Add(articulo);
                 }
 
-                datos.cerrarConexion();
             }
             catch (Exception ex)
             {
 
                 throw ex;
             }
+            finally
+            {
+                datos.cerrarConexion();
+
+            }
+
             return lista;
         }
 
@@ -168,6 +173,111 @@ namespace Negocio
             }
         }
 
+        public List<Articulo> filtroAvanzado(string campo, string criterio, decimal? precio = null) 
+        {
+            List<Articulo> lista = new List<Articulo>();
+            //hay que armar la lista y retornarla
+            //campo = Categoria o Marca -- Criterio = lo que haya en marca o lo que haya en categoria 
+            AccesoDatos datos = new AccesoDatos();
+            string consulta = "Select A.Id, A.Codigo, A.Nombre, A.Descripcion, A.Precio, A.ImagenUrl, A.IdMarca, A.IdCategoria, C.Descripcion as Categoria, M.Descripcion as Marca From ARTICULOS A, CATEGORIAS C, MARCAS M Where A.IdMarca = M.Id AND A.IdCategoria = C.Id ";
+            try
+            {
+                if (campo == "Marcas")
+                {
+                    consulta += " AND M.Descripcion = @marca";
+                    datos.setearParametros("@marca", criterio);
+
+                }
+                else if (campo == "Categorías")
+                {
+                    consulta += "AND C.Descripcion = @categoria";
+                    datos.setearParametros("@categoria", criterio);
+
+                }else if (campo == "Precio" && precio.HasValue)
+                {
+                    if (criterio == "Mayor a")
+                    {
+                        consulta += "AND A.Precio > @precio";
+                        datos.setearParametros("@precio", precio.Value);
+
+                    }else if(criterio == "Menor a")
+                    {
+                        consulta += "AND A.Precio < @precio";
+                        datos.setearParametros("@precio", precio.Value);
+
+                    }
+                    else if(criterio == "Igual a")
+                    {
+                        consulta += "AND A.Precio = @precio";
+                        datos.setearParametros("@precio", precio.Value);
+                    }
+                }
+
+
+
+                datos.setearConsulta(consulta);
+                datos.ejecutarLectura();
+
+                //aca hay que mapear lo que me traiga y ponerlo en la lista 
+                while (datos.Lector.Read())
+                {
+                    Articulo articulo = new Articulo();
+
+                    //mapeo de objeto articulo
+                    articulo.Id = (int)datos.Lector["Id"];
+                    if (!(datos.Lector["Codigo"] is DBNull))
+                    {
+                        articulo.Codigo = (string)datos.Lector["Codigo"];
+                    }
+                    if (!(datos.Lector["Nombre"] is DBNull))
+                    {
+                        articulo.Nombre = (string)datos.Lector["Nombre"];
+                    }
+                    articulo.Descripcion = (string)datos.Lector["Descripcion"];
+
+                    if (!(datos.Lector["Precio"] is DBNull))
+                    {
+                        articulo.Precio = (decimal)datos.Lector["Precio"];
+                    }
+
+                    if (!(datos.Lector["ImagenUrl"] is DBNull))
+                    {
+                        articulo.ImagenUrl = (string)datos.Lector["ImagenUrl"];
+                    }
+
+
+
+                    articulo.Categoria = new Categoria();
+                    articulo.Categoria.Id = (int)datos.Lector["IdCategoria"];
+                    articulo.Categoria.Descripcion = (string)datos.Lector["Categoria"];
+
+                    articulo.Marca = new Marca();
+                    articulo.Marca.Id = (int)datos.Lector["IdMarca"];
+                    articulo.Marca.Descripcion = (string)datos.Lector["Marca"];
+
+
+                    lista.Add(articulo);
+
+                }
+                
+
+                
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            } finally 
+            {
+                datos.cerrarConexion();
+            }
+
+
+            return lista;
+        }
+
+        
 
     }
 }

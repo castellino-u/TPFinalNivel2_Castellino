@@ -27,9 +27,16 @@ namespace Presentacion
         private void Form1_Load(object sender, EventArgs e)
         {
             cargarDatos();
+
+            //Cargamos los desplegables
+            cboCampo.Items.Add("Precio");
+            cboCampo.Items.Add("Marcas");
+            cboCampo.Items.Add("Categorías");
+
+            
         }
-         //Metodo para cargar la descripción de los objetos en los labels
-         //...
+        //Metodo para cargar la descripción de los objetos en los labels
+        //...
         private void cargarDescripcion(Articulo aux)
         {
             lblNombre.Text = aux.Nombre;
@@ -72,9 +79,14 @@ namespace Presentacion
 
         private void dgvArticulo_SelectionChanged(object sender, EventArgs e)
         {
+            if(dgvArticulo.CurrentRow == null) { return;  }
+            if(dgvArticulo.CurrentRow.DataBoundItem == null) { return;}
+            
             Articulo articulo = (Articulo)dgvArticulo.CurrentRow.DataBoundItem;
             cargarImagen(articulo.ImagenUrl);
             cargarDescripcion(articulo);
+
+            
         }
 
         private void btnAgregar_Click(object sender, EventArgs e)
@@ -140,19 +152,109 @@ namespace Presentacion
             string filtro = txtFiltroRapido.Text;
             List<Articulo> listaFiltrada;
 
-            if (int.TryParse(txtFiltroRapido.Text, out int num))
+            listaFiltrada = listaArticulos.FindAll(x => x.Nombre.ToLower().Contains(filtro.ToLower()));
+            if (listaFiltrada.Count <= 1)
             {
+                listaFiltrada = listaArticulos.FindAll(x => x.Codigo.ToLower().Contains(filtro.ToLower()));
+            }
 
-                listaFiltrada = listaArticulos.FindAll(x => x.Id == num);
+            dgvArticulo.DataSource = null;
+            dgvArticulo.DataSource = listaFiltrada;
+            ocultarColumnas();
 
+
+        }
+
+        private void btnBuscar_Click(object sender, EventArgs e)
+        {
+            //Acá ejecutaremos el filtrado contra base de datos
+            if(cboCampo.SelectedItem == null)
+            {
+                MessageBox.Show("funciona correcto la validaciopn");
+                return;
+            }
+            if(cboCriterio.SelectedItem == null)
+            {
+                return;
+            }
+
+            ArticuloNegocio articuloNegocio = new ArticuloNegocio();
+            string campo = cboCampo.SelectedItem.ToString();
+            string criterio = cboCriterio.SelectedItem.ToString();
+
+            if (campo == "Precio")
+            {
+                if (decimal.TryParse(txtFiltroAvanzado.Text, out decimal precio))
+                {
+                    //Acá debemos ejecutar la busqueda por filtro
+                    try
+                    {
+                        dgvArticulo.DataSource = null;
+                        dgvArticulo.DataSource = articuloNegocio.filtroAvanzado(campo, criterio, precio);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Ocurrió un error al buscar: " + ex.Message);
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Debe ingresar solo números en el campo VALOR");
+                    return;
+                }
             }
             else
             {
-                listaFiltrada = listaArticulos.FindAll(x => x.Nombre.ToLower().Contains(filtro.ToLower()));
-            }
-            dgvArticulo.DataSource = null;
-            dgvArticulo.DataSource = listaFiltrada;
+                try
+                {
+                    dgvArticulo.DataSource = null;
+                    dgvArticulo.DataSource = articuloNegocio.filtroAvanzado(campo, criterio);
 
+                }
+                catch (Exception ex)
+                {
+
+                    MessageBox.Show("Ocurrió un error al buscar: " + ex.Message);
+                }
+            }
         }
+
+
+        private void cboCampo_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            cboCriterio.DataSource = null;
+            cboCriterio.Items.Clear();
+
+            if (cboCampo.SelectedItem.ToString() == "Precio")
+            {
+                cboCriterio.Items.Add("Mayor a");
+                cboCriterio.Items.Add("Menor a");
+                cboCriterio.Items.Add("Igual a");
+                txtFiltroAvanzado.Enabled = true; // deshabilita
+
+
+            }
+            else if (cboCampo.SelectedItem.ToString() == "Marcas")
+            {
+                txtFiltroAvanzado.Text = "";
+                txtFiltroAvanzado.Enabled = false; // deshabilita
+
+                MarcaNegocio marcaNegocio = new MarcaNegocio();
+                cboCriterio.DataSource = marcaNegocio.listar();
+                cboCriterio.SelectedIndex = -1;
+            }
+            else if(cboCampo.SelectedItem.ToString() == "Categorías")
+            {
+                txtFiltroAvanzado.Text = "";
+                txtFiltroAvanzado.Enabled = false; // deshabilita
+
+                CategoriaNegocio categoriaNegocio = new CategoriaNegocio();
+                cboCriterio.DataSource = categoriaNegocio.listar();
+                cboCriterio.SelectedIndex = -1;
+
+            }
+        }
+
+        
     }
 }
