@@ -101,5 +101,35 @@ namespace Presentacion
 
 
         }
+
+        private void btnActualizar_Click(object sender, EventArgs e)
+        {
+            cargarDatos();
+        }
+
+        private void btnEliminar_Click(object sender, EventArgs e)
+        {
+
+            try
+            {
+                Articulo seleccionado = (Articulo)dgvArticulo.CurrentRow.DataBoundItem;
+                ArticuloNegocio articuloNegocio = new ArticuloNegocio();
+
+                DialogResult resultado = MessageBox.Show("¿Deseas realmente eliminar el registro?", "Eliminado", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                if (resultado == DialogResult.Yes)
+                {
+                    articuloNegocio.eliminar(seleccionado.Id);
+                    MessageBox.Show("Realizado", "Resultado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                }
+            }
+            catch 
+            {
+
+                MessageBox.Show("Error al eliminar");
+            }
+
+            cargarDatos();
+        }
     }
 }
