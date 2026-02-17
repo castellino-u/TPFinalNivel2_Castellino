@@ -9,7 +9,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Dominio;
-
+using System.IO;
+using System.Configuration;
 
 
 namespace Presentacion
@@ -17,6 +18,8 @@ namespace Presentacion
     public partial class frmAgregar : Form
     {
         Articulo art = null;
+        OpenFileDialog archivo = null;
+
 
         public frmAgregar()
         {
@@ -80,6 +83,26 @@ namespace Presentacion
                 articuloNegocio.Agregar(art);
                 MessageBox.Show("Agregado correctamente");
 
+            }
+
+            //Acá guardaremos una copia de la imagen local en donde querramos
+            //...
+            try
+            {
+
+                if((archivo != null) && File.Exists(archivo.FileName) && !(txtImagenUrl.Text.StartsWith("https", StringComparison.OrdinalIgnoreCase)))
+                {
+                    string carpeta = ConfigurationManager.AppSettings["images-articles"]; //guardamos la ruta y nombre de la carpeta
+                    Directory.CreateDirectory(carpeta);                                   //si la carpeta no existe, la crea, si existe, no hace nada
+
+                    string destino = Path.Combine(carpeta, archivo.SafeFileName);
+                    File.Copy(archivo.FileName, destino, true);
+                }
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show("Error al copiar la imagen: " + ex.Message);
             }
 
             this.Close();
@@ -162,10 +185,14 @@ namespace Presentacion
 
         private void btnLevantarImg_Click(object sender, EventArgs e)
         {
-            OpenFileDialog archivo = new OpenFileDialog();
+            archivo = new OpenFileDialog();
             archivo.Filter = "jpg|*.jpg|png|*.png";
             if(archivo.ShowDialog() == DialogResult.OK)
             {
+                txtImagenUrl.Text = archivo.FileName;
+                cargarImagen(archivo.FileName);
+                //File.Copy(archivo.FileName, ConfigurationManager.AppSettings["images-articles"] + archivo.SafeFileName);
+
 
             }
         }
