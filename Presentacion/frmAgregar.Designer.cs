@@ -45,6 +45,7 @@
             this.lblPrecio = new System.Windows.Forms.Label();
             this.lblCategoria = new System.Windows.Forms.Label();
             this.lblMarca = new System.Windows.Forms.Label();
+            this.btnLevantarImg = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pbxArticulo)).BeginInit();
             this.SuspendLayout();
             // 
@@ -196,11 +197,22 @@
             this.lblMarca.TabIndex = 16;
             this.lblMarca.Text = "Marca: ";
             // 
+            // btnLevantarImg
+            // 
+            this.btnLevantarImg.Location = new System.Drawing.Point(322, 178);
+            this.btnLevantarImg.Name = "btnLevantarImg";
+            this.btnLevantarImg.Size = new System.Drawing.Size(23, 27);
+            this.btnLevantarImg.TabIndex = 17;
+            this.btnLevantarImg.Text = "+";
+            this.btnLevantarImg.UseVisualStyleBackColor = true;
+            this.btnLevantarImg.Click += new System.EventHandler(this.btnLevantarImg_Click);
+            // 
             // frmAgregar
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(731, 522);
+            this.Controls.Add(this.btnLevantarImg);
             this.Controls.Add(this.lblMarca);
             this.Controls.Add(this.lblCategoria);
             this.Controls.Add(this.lblPrecio);
@@ -247,5 +259,6 @@
         private System.Windows.Forms.Label lblPrecio;
         private System.Windows.Forms.Label lblCategoria;
         private System.Windows.Forms.Label lblMarca;
+        private System.Windows.Forms.Button btnLevantarImg;
     }
 }
