@@ -50,18 +50,31 @@ namespace Presentacion
 
         //Método para formatear las columnas del dataGridView
         //...
+        public void cargarDatos()
+        {
+            ArticuloNegocio articuloNegocio = new ArticuloNegocio();
+            try
+            {
+                listaArticulos = articuloNegocio.listar();
+                dgvArticulo.DataSource = listaArticulos;
+                cargarImagen(listaArticulos[0].ImagenUrl);
+                ocultarColumnas();
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar datos: " + ex.Message);
+            }
+        }
         private void ocultarColumnas()
         {
-            dgvArticulo.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvArticulo.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;  //ajuste automático de columnas para que se vea bien el datagridview
             dgvArticulo.Columns["Id"].Visible = false;
             dgvArticulo.Columns["ImagenUrl"].Visible = false;
             dgvArticulo.Columns["Descripcion"].Visible = false;
         }
 
-        private void pbxArticulo_Click(object sender, EventArgs e)
-        {
-
-        }
+        
 
         //Método para cargar imagen en pictureBox
         //...
@@ -95,15 +108,7 @@ namespace Presentacion
             agregar.ShowDialog();
             cargarDatos();
         }
-        public void cargarDatos()
-        {
-            ArticuloNegocio articuloNegocio = new ArticuloNegocio();
-            
-            listaArticulos = articuloNegocio.listar();
-            dgvArticulo.DataSource = listaArticulos;
-            cargarImagen(listaArticulos[0].ImagenUrl);
-            ocultarColumnas();
-        }
+
 
         private void btnModificar_Click(object sender, EventArgs e)
         {
@@ -119,15 +124,30 @@ namespace Presentacion
 
         private void btnActualizar_Click(object sender, EventArgs e)
         {
-            cargarDatos();
-            cboCampo.SelectedIndex = -1;
-            cboCriterio.SelectedIndex = -1;
-            txtFiltroAvanzado.Text = "";
+            try
+            {
+                cargarDatos();
+                cboCampo.SelectedIndex = -1;
+                cboCriterio.SelectedIndex = -1;
+                txtFiltroAvanzado.Text = "";
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al actualizar: " + ex.Message);
+            }
         }
 
         private void btnEliminar_Click(object sender, EventArgs e)
         {
-
+            if (dgvArticulo.CurrentRow == null)
+            {
+                return;
+            }
+            if (dgvArticulo.CurrentRow.DataBoundItem == null)
+            {
+                return;
+            }
             try
             {
                 Articulo seleccionado = (Articulo)dgvArticulo.CurrentRow.DataBoundItem;
@@ -173,13 +193,23 @@ namespace Presentacion
             //Acá ejecutaremos el filtrado contra base de datos
             if(cboCampo.SelectedItem == null)
             {
-                MessageBox.Show("funciona correcto la validaciopn");
+                cboCampo.FlatStyle = FlatStyle.Flat;
+                cboCampo.BackColor = Color.LightCoral;
                 return;
             }
             if(cboCriterio.SelectedItem == null)
             {
+                cboCriterio.FlatStyle = FlatStyle.Flat;
+                cboCriterio.BackColor = Color.LightCoral;
                 return;
             }
+            if(txtFiltroAvanzado.Text == "")
+            {
+                txtFiltroAvanzado.BackColor = Color.LightCoral;
+                return;
+            }
+            txtFiltroAvanzado.BackColor = Color.White;
+
 
             ArticuloNegocio articuloNegocio = new ArticuloNegocio();
             string campo = cboCampo.SelectedItem.ToString();

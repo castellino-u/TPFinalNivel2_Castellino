@@ -35,11 +35,10 @@ namespace Negocio
 
                 datos.cerrarConexion();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
-                throw ex;
-            ;
+                throw;
             }
 
 

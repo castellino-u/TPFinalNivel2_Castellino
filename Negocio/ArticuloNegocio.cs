@@ -55,25 +55,25 @@ namespace Negocio
                         articulo.ImagenUrl = (string)datos.Lector["ImagenUrl"];
                     }
 
-
-
-                    articulo.Categoria = new Categoria();
-                    articulo.Categoria.Id = (int)datos.Lector["IdCategoria"];
-                    articulo.Categoria.Descripcion = (string)datos.Lector["Categoria"];
-
-                    articulo.Marca = new Marca();
-                    articulo.Marca.Id = (int)datos.Lector["IdMarca"];
-                    articulo.Marca.Descripcion = (string)datos.Lector["Marca"];
-
-
+                    if (!(datos.Lector["IdCategoria"] is DBNull))
+                    {
+                        articulo.Categoria = new Categoria
+                        {
+                            Id = (int)datos.Lector["IdCategoria"],
+                            Descripcion = datos.Lector["Categoria"] as string
+                        };
+                    }
+                    if (!(datos.Lector["IdMarca"] is DBNull))
+                    {
+                        articulo.Marca = new Marca
+                        {
+                            Id = (int)datos.Lector["IdMarca"],
+                            Descripcion = (string)datos.Lector["Marca"]
+                        };
+                    }
                     lista.Add(articulo);
                 }
 
-            }
-            catch (Exception ex)
-            {
-
-                throw ex;
             }
             finally
             {
@@ -105,11 +105,6 @@ namespace Negocio
 
 
             }
-            catch (Exception ex)
-            {
-
-                throw ex;
-            }
             finally
             {
                 datos.cerrarConexion();
@@ -134,21 +129,11 @@ namespace Negocio
 
                 //ejecutamos el update
                 datos.ejecutarAccion();
-
-            }
-            catch (Exception ex)
-            {
-
-                throw ex;
             }
             finally
             {
                 datos.cerrarConexion();
             }
-
-
-
-
         }
 
         public void eliminar(int id)
@@ -160,12 +145,6 @@ namespace Negocio
                 datos.setearParametros("@id", id);
 
                 datos.ejecutarAccion();
-            }
-            catch (Exception ex)
-            {
-
-                throw ex;
-
             }
             finally
             {
@@ -195,8 +174,6 @@ namespace Negocio
 
                 }else if (campo == "Precio" && precio.HasValue)
                 {
-                    MessageBox.Show(precio.ToString());
-
                     if (criterio == "Mayor a")
                     {
                         consulta += "AND A.Precio > @precio";
@@ -214,8 +191,6 @@ namespace Negocio
                         datos.setearParametros("@precio", precio.Value);
                     }
                 }
-
-
 
                 datos.setearConsulta(consulta);
                 datos.ejecutarLectura();
@@ -248,34 +223,30 @@ namespace Negocio
                     }
 
 
-
-                    articulo.Categoria = new Categoria();
-                    articulo.Categoria.Id = (int)datos.Lector["IdCategoria"];
-                    articulo.Categoria.Descripcion = (string)datos.Lector["Categoria"];
-
-                    articulo.Marca = new Marca();
-                    articulo.Marca.Id = (int)datos.Lector["IdMarca"];
-                    articulo.Marca.Descripcion = (string)datos.Lector["Marca"];
-
+                    if (!(datos.Lector["IdCategoria"] is DBNull))
+                    {
+                        articulo.Categoria = new Categoria
+                        {
+                            Id = (int)datos.Lector["IdCategoria"],
+                            Descripcion = datos.Lector["Categoria"] as string
+                        };
+                    }
+                    if (!(datos.Lector["IdMarca"] is DBNull))
+                    {
+                        articulo.Marca = new Marca
+                        {
+                            Id = (int)datos.Lector["IdMarca"],
+                            Descripcion = (string)datos.Lector["Marca"]
+                        };
+                    }
 
                     lista.Add(articulo);
-
                 }
-                
-
-                
-
             }
-            catch (Exception ex)
-            {
-
-                throw ex;
-
-            } finally 
+            finally 
             {
                 datos.cerrarConexion();
             }
-
 
             return lista;
         }

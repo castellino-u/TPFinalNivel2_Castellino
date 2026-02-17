@@ -37,10 +37,10 @@ namespace Negocio
 
 
             }
-            catch (Exception ex)
+            catch (Exception )
             {
 
-                throw ex;
+                throw;
             }
 
 

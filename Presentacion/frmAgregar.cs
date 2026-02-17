@@ -33,56 +33,83 @@ namespace Presentacion
             this.art = art;
             InitializeComponent();
             Text = "Modificar";
-
-
         }
 
         private void btnAgregar_Click(object sender, EventArgs e)
         {
+            //Validaciones
+            if(txtCodigo.Text == "")
+            {
+                erpCodigo.SetError(txtCodigo, "Debe ingresar un Código");
+                return;
+            }
+            if(txtNombre.Text == "")
+            {
+                erpNombre.SetError(txtNombre, "Debe ingresar un nombre");
+                return;
+            }
+            if(cboMarca.SelectedIndex == -1)
+            {
+                erpMarca.SetError(cboMarca, "Debe seleccionar una Marca");
+                return;
+            }
+            if(cboCategoria.SelectedIndex == -1)
+            {
+                erpCategoria.SetError(cboCategoria, "Debe seleccionar una Categoría");
+                return;
+            }
+            
+            
             //Hay que capturar los datos de las estructuras de control en un objeto articulo y mandarlas a la base de datos
             //Captura de datos 
             ArticuloNegocio articuloNegocio = new ArticuloNegocio();
 
-            try
+            if (art == null)
             {
-                if (art == null)
-                {
-                    art = new Articulo();
-                }
-                art.Codigo = txtCodigo.Text;
-                art.Nombre = txtNombre.Text;
-                art.Descripcion = txtDescripcion.Text;
-                art.ImagenUrl = txtImagenUrl.Text;
-
-                decimal precio;
-
-                if (decimal.TryParse(txtPrecio.Text, out precio))
-                {
-                   art.Precio = precio;
-                }
-
-                art.Categoria = (Categoria)cboCategoria.SelectedItem;
-                art.Marca = (Marca)cboMarca.SelectedItem;
-
-                
+                art = new Articulo();
             }
-            catch (Exception ex)
+            art.Codigo = txtCodigo.Text;
+            art.Nombre = txtNombre.Text;
+            art.Descripcion = txtDescripcion.Text;
+            art.ImagenUrl = txtImagenUrl.Text;
+
+            decimal precio;
+
+            if (decimal.TryParse(txtPrecio.Text, out precio))
             {
-
-                throw ex;
+                art.Precio = precio;
             }
+
+            art.Categoria = (Categoria)cboCategoria.SelectedItem;
+            art.Marca = (Marca)cboMarca.SelectedItem;
+            
+            
             //Acá hay que ver qué método se ejecuta, si agregar() o modificar()
             if (art.Id > 0)
             {
-                articuloNegocio.Modificar(art);
-                MessageBox.Show("Modificado correctamente");
+                try
+                {
+                    articuloNegocio.Modificar(art);
+                    MessageBox.Show("Modificado correctamente", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error al modificar artículo: " + ex.Message);
+                }
             }
             else
             {
-                articuloNegocio.Agregar(art);
-                MessageBox.Show("Agregado correctamente");
+                try
+                {
+                    articuloNegocio.Agregar(art);
+                    MessageBox.Show("Agregado correctamente", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error al agregar artículo: " + ex.Message);
+                }
             }
 
             //Acá guardaremos una copia de la imagen local en donde querramos
@@ -130,35 +157,23 @@ namespace Presentacion
             //...
 
 
-            try
+            
+            if (!(art == null))
             {
-                if (!(art == null))
-                {
-                    //Detalle para que sea mas evidente que se quiere modificar un registro
-                    btnAgregar.Text = "Modificar";
+                btnAgregar.Text = "Modificar";      //Detalle para que sea mas evidente que se quiere modificar un registro
 
-                    txtCodigo.Text = art.Codigo;
-                    txtNombre.Text = art.Nombre ;
-                    txtDescripcion.Text = art.Descripcion;
-                    txtImagenUrl.Text = art.ImagenUrl;
-                    txtPrecio.Text = art.Precio.ToString();
-                    cargarImagen(art.ImagenUrl);
+                txtCodigo.Text = art.Codigo;
+                txtNombre.Text = art.Nombre ;
+                txtDescripcion.Text = art.Descripcion;
+                txtImagenUrl.Text = art.ImagenUrl;
+                txtPrecio.Text = art.Precio.ToString();
+                cargarImagen(art.ImagenUrl);
 
-                    //Queda mapear Categoría y Marca
-                    cboCategoria.SelectedValue = art.Categoria.Id;
-                    cboMarca.SelectedValue = art.Marca.Id;
-                }
-                else
-                {
-                    //Si no es nulo, quiere decir que viene con un objeto y se requiere modificar ese objeto 
-
-                }
+                //Queda mapear Categoría y Marca
+                cboCategoria.SelectedValue = art.Categoria.Id;
+                cboMarca.SelectedValue = art.Marca.Id;
             }
-            catch (Exception ex)
-            {
-
-                throw ex;
-            }
+            
         }
 
         private void btnCancelar_Click(object sender, EventArgs e)

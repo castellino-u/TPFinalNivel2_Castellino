@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.btnAgregar = new System.Windows.Forms.Button();
             this.btnCancelar = new System.Windows.Forms.Button();
             this.lblCodigo = new System.Windows.Forms.Label();
@@ -46,7 +47,15 @@
             this.lblCategoria = new System.Windows.Forms.Label();
             this.lblMarca = new System.Windows.Forms.Label();
             this.btnLevantarImg = new System.Windows.Forms.Button();
+            this.erpNombre = new System.Windows.Forms.ErrorProvider(this.components);
+            this.erpCodigo = new System.Windows.Forms.ErrorProvider(this.components);
+            this.erpMarca = new System.Windows.Forms.ErrorProvider(this.components);
+            this.erpCategoria = new System.Windows.Forms.ErrorProvider(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.pbxArticulo)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.erpNombre)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.erpCodigo)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.erpMarca)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.erpCategoria)).BeginInit();
             this.SuspendLayout();
             // 
             // btnAgregar
@@ -100,6 +109,7 @@
             // 
             // pbxArticulo
             // 
+            this.pbxArticulo.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.pbxArticulo.Location = new System.Drawing.Point(370, 61);
             this.pbxArticulo.Name = "pbxArticulo";
             this.pbxArticulo.Size = new System.Drawing.Size(274, 256);
@@ -207,6 +217,22 @@
             this.btnLevantarImg.UseVisualStyleBackColor = true;
             this.btnLevantarImg.Click += new System.EventHandler(this.btnLevantarImg_Click);
             // 
+            // erpNombre
+            // 
+            this.erpNombre.ContainerControl = this;
+            // 
+            // erpCodigo
+            // 
+            this.erpCodigo.ContainerControl = this;
+            // 
+            // erpMarca
+            // 
+            this.erpMarca.ContainerControl = this;
+            // 
+            // erpCategoria
+            // 
+            this.erpCategoria.ContainerControl = this;
+            // 
             // frmAgregar
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -235,6 +261,10 @@
             this.Text = "frmAgregar";
             this.Load += new System.EventHandler(this.frmAgregar_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pbxArticulo)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.erpNombre)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.erpCodigo)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.erpMarca)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.erpCategoria)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -260,5 +290,9 @@
         private System.Windows.Forms.Label lblCategoria;
         private System.Windows.Forms.Label lblMarca;
         private System.Windows.Forms.Button btnLevantarImg;
+        private System.Windows.Forms.ErrorProvider erpNombre;
+        private System.Windows.Forms.ErrorProvider erpCodigo;
+        private System.Windows.Forms.ErrorProvider erpMarca;
+        private System.Windows.Forms.ErrorProvider erpCategoria;
     }
 }
