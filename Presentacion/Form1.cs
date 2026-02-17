@@ -120,6 +120,9 @@ namespace Presentacion
         private void btnActualizar_Click(object sender, EventArgs e)
         {
             cargarDatos();
+            cboCampo.SelectedIndex = -1;
+            cboCriterio.SelectedIndex = -1;
+            txtFiltroAvanzado.Text = "";
         }
 
         private void btnEliminar_Click(object sender, EventArgs e)
@@ -224,6 +227,10 @@ namespace Presentacion
         {
             cboCriterio.DataSource = null;
             cboCriterio.Items.Clear();
+            if(cboCampo.SelectedItem == null)
+            {
+                return;
+            }
 
             if (cboCampo.SelectedItem.ToString() == "Precio")
             {

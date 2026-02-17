@@ -195,6 +195,8 @@ namespace Negocio
 
                 }else if (campo == "Precio" && precio.HasValue)
                 {
+                    MessageBox.Show(precio.ToString());
+
                     if (criterio == "Mayor a")
                     {
                         consulta += "AND A.Precio > @precio";
@@ -264,10 +266,11 @@ namespace Negocio
                 
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
-                throw;
+                throw ex;
+
             } finally 
             {
                 datos.cerrarConexion();
