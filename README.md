@@ -1,5 +1,9 @@
 # 📦 Sistema de Gestión de Productos
 
+## 📷 Capturas de pantalla
+
+![Pantalla principal](images/pantalla-principal.png)
+
 Aplicación de escritorio desarrollada en .NET para la gestión integral de productos, que permite administrar artículos mediante operaciones de alta, modificación, eliminación, visualización detallada y filtrado dinámico contra base de datos.
 
 El sistema implementa una arquitectura en capas y utiliza acceso a datos mediante ADO.NET, con persistencia en base de datos SQL Server Express.
