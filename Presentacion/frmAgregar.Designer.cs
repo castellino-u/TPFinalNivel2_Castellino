@@ -64,7 +64,7 @@
             this.btnAgregar.Location = new System.Drawing.Point(182, 399);
             this.btnAgregar.Name = "btnAgregar";
             this.btnAgregar.Size = new System.Drawing.Size(116, 50);
-            this.btnAgregar.TabIndex = 0;
+            this.btnAgregar.TabIndex = 8;
             this.btnAgregar.Text = "Agregar";
             this.btnAgregar.UseVisualStyleBackColor = false;
             this.btnAgregar.Click += new System.EventHandler(this.btnAgregar_Click);
@@ -75,7 +75,7 @@
             this.btnCancelar.Location = new System.Drawing.Point(382, 399);
             this.btnCancelar.Name = "btnCancelar";
             this.btnCancelar.Size = new System.Drawing.Size(126, 50);
-            this.btnCancelar.TabIndex = 1;
+            this.btnCancelar.TabIndex = 9;
             this.btnCancelar.Text = "Cancelar";
             this.btnCancelar.UseVisualStyleBackColor = false;
             this.btnCancelar.Click += new System.EventHandler(this.btnCancelar_Click);
@@ -105,7 +105,7 @@
             this.cboMarca.Location = new System.Drawing.Point(135, 256);
             this.cboMarca.Name = "cboMarca";
             this.cboMarca.Size = new System.Drawing.Size(181, 21);
-            this.cboMarca.TabIndex = 4;
+            this.cboMarca.TabIndex = 6;
             // 
             // pbxArticulo
             // 
@@ -122,28 +122,28 @@
             this.txtCodigo.Location = new System.Drawing.Point(135, 58);
             this.txtCodigo.Name = "txtCodigo";
             this.txtCodigo.Size = new System.Drawing.Size(181, 20);
-            this.txtCodigo.TabIndex = 6;
+            this.txtCodigo.TabIndex = 0;
             // 
             // txtNombre
             // 
             this.txtNombre.Location = new System.Drawing.Point(135, 95);
             this.txtNombre.Name = "txtNombre";
             this.txtNombre.Size = new System.Drawing.Size(181, 20);
-            this.txtNombre.TabIndex = 7;
+            this.txtNombre.TabIndex = 1;
             // 
             // txtDescripcion
             // 
             this.txtDescripcion.Location = new System.Drawing.Point(135, 139);
             this.txtDescripcion.Name = "txtDescripcion";
             this.txtDescripcion.Size = new System.Drawing.Size(181, 20);
-            this.txtDescripcion.TabIndex = 8;
+            this.txtDescripcion.TabIndex = 2;
             // 
             // txtImagenUrl
             // 
             this.txtImagenUrl.Location = new System.Drawing.Point(135, 178);
             this.txtImagenUrl.Name = "txtImagenUrl";
             this.txtImagenUrl.Size = new System.Drawing.Size(181, 20);
-            this.txtImagenUrl.TabIndex = 9;
+            this.txtImagenUrl.TabIndex = 3;
             this.txtImagenUrl.Leave += new System.EventHandler(this.txtImagenUrl_Leave);
             // 
             // txtPrecio
@@ -151,7 +151,7 @@
             this.txtPrecio.Location = new System.Drawing.Point(135, 212);
             this.txtPrecio.Name = "txtPrecio";
             this.txtPrecio.Size = new System.Drawing.Size(181, 20);
-            this.txtPrecio.TabIndex = 10;
+            this.txtPrecio.TabIndex = 5;
             // 
             // cboCategoria
             // 
@@ -160,7 +160,7 @@
             this.cboCategoria.Location = new System.Drawing.Point(135, 296);
             this.cboCategoria.Name = "cboCategoria";
             this.cboCategoria.Size = new System.Drawing.Size(181, 21);
-            this.cboCategoria.TabIndex = 11;
+            this.cboCategoria.TabIndex = 7;
             // 
             // lblDescripcion
             // 
@@ -212,7 +212,7 @@
             this.btnLevantarImg.Location = new System.Drawing.Point(322, 178);
             this.btnLevantarImg.Name = "btnLevantarImg";
             this.btnLevantarImg.Size = new System.Drawing.Size(23, 27);
-            this.btnLevantarImg.TabIndex = 17;
+            this.btnLevantarImg.TabIndex = 4;
             this.btnLevantarImg.Text = "+";
             this.btnLevantarImg.UseVisualStyleBackColor = true;
             this.btnLevantarImg.Click += new System.EventHandler(this.btnLevantarImg_Click);
